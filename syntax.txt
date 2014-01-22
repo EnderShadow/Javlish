@@ -1,0 +1,58 @@
+// Javlish syntax						// Java syntax
+
+integer 							int
+.								;
+
+begins here.							{
+
+is less than							<
+is greater than							>
+or equal to							=
+
+is not equal to							!=
+is								==
+
+if								if(
+otherwise if							else if(
+then								){
+otherwise							else{
+end								}
+
+and								&&
+or								||
+not								!
+
+gets								=
+minus								-
+plus								+
+times								*
+divided by							/
+mod								%
+increment							++
+decrement							--
+
+array								[]
+
+^								.
+
+to string							""
+
+// bitwise operators
+true shift bit right						>>>
+shift bit right							>>
+shift bit left							<<
+bitwise and							&
+bitwise or							|
+bitwise exclusive or						^
+invert								~
+
+// formatted methods
+print {0} to error console					System.err.println({0})
+print {0} to console						System.out.println({0})
+for {0} do							for({0}){
+while {0} do							while({0}){
+// NOTE: when dealing with parameters, seperate them
+// 	 with the word "and" instead of a comma.
+constructor {0} with parameters {1} begins here.		{0}({1}){
+method {0} returns {1} with parameters {2} begins here.		{1} {0}({2}){
+{0} with parameters {1}.					{0}({1});
