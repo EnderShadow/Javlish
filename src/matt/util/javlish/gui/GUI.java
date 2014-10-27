@@ -1,9 +1,7 @@
-package matt.util.easierJava.gui;
+package matt.util.javlish.gui;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileWriter;
 
@@ -18,7 +16,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import matt.util.easierJava.Processor;
+import matt.util.javlish.Processor;
 
 public class GUI implements Runnable
 {
@@ -83,104 +81,77 @@ public class GUI implements Runnable
 		files.add(openFileDir);
 		files.add(openFile);
 		
-		destination.addMouseListener(new MouseListener()
-		{
-			@Override
-			public void mouseClicked(MouseEvent arg0)
+		destination.addActionListener(e -> {
+			fc.showSaveDialog(mainScreen);
+			openFile.setText(fc.getSelectedFile().getAbsolutePath());
+		});
+		
+		process.addActionListener(a -> {
+			File file = fc.getSelectedFile();
+			if(file != null)
+			{
+				if(!file.getName().endsWith(".javlish"))
+				{
+					display.append("Invalid file extension\n");
+				}
+				else
+				{
+					if(!file.exists())
+					{
+						try
+						{
+							file.createNewFile();
+						}
+						catch(Exception e)
+						{
+							display.append("Failed to create file\n");
+							e.printStackTrace();
+						}
+					}
+
+					File file2 = new File(file.getPath().substring(0, file.getPath().length() - 4) + "a");
+
+					try
+					{
+						if(file.exists())
+						{
+							FileWriter fw = new FileWriter(file, false);
+							fw.write(input.getText());
+							fw.close();
+
+							String filename = file2.getName().substring(0, file2.getName().length() - 5);
+							if(javaFile.isSelected())
+							{
+								fw = new FileWriter(file2, false);
+								String newLine = System.getProperty("line.separator");
+								String java = Processor.toJava(input.getText());
+								String[] javaa = java.split("\n");
+								for(String str : javaa)
+								{
+									fw.write(str);
+									fw.write(newLine);
+								}
+								fw.close();
+							}
+							if(classFile.isSelected())
+							{
+								new File(filename + ".class").createNewFile();
+								//TODO generate class file
+							}
+						}
+					}
+					catch(Exception e)
+					{
+						display.append("Failed to save file\n");
+						e.printStackTrace();
+					}
+				}
+			}
+			else
 			{
 				fc.showSaveDialog(mainScreen);
 				openFile.setText(fc.getSelectedFile().getAbsolutePath());
 			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {}
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {}
-		});
-		
-		process.addMouseListener(new MouseListener()
-		{
-			@Override
-			public void mouseClicked(MouseEvent arg0)
-			{
-				File file = fc.getSelectedFile();
-				if(file != null)
-				{
-					if(!file.getName().endsWith(".javlish"))
-					{
-						display.append("Invalid file extension\n");
-					}
-					else
-					{
-						if(!file.exists())
-						{
-							try
-							{
-								file.createNewFile();
-							}
-							catch(Exception e)
-							{
-								display.append("Failed to create file\n");
-								e.printStackTrace();
-							}
-						}
-						
-						File file2 = new File(file.getPath().substring(0, file.getPath().length() - 4) + "a");
-						
-						try
-						{
-							if(file.exists())
-							{
-								FileWriter fw = new FileWriter(file, false);
-								fw.write(input.getText());
-								fw.close();
-								
-								String filename = file2.getName().substring(0, file2.getName().length() - 5);
-								if(javaFile.isSelected())
-								{
-									fw = new FileWriter(file2, false);
-									fw.write(Processor.toJava(input.getText()));
-									fw.close();
-								}
-								if(classFile.isSelected())
-								{
-									new File(filename + ".class").createNewFile();
-									//TODO generate class file
-								}
-							}
-						}
-						catch(Exception e)
-						{
-							display.append("Failed to save file\n");
-							e.printStackTrace();
-						}
-					}
-				}
-				else
-				{
-					fc.showSaveDialog(mainScreen);
-					openFile.setText(fc.getSelectedFile().getAbsolutePath());
-				}
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {}
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {}
 		});
 
 		mainScreen.add(inputText);
@@ -205,7 +176,7 @@ public class GUI implements Runnable
 			{
 				fc.setSelectedFile(new File(fc.getSelectedFile().getPath() + ".javlish"));
 			}
-			process.getMouseListeners()[1].mouseClicked(null);
+			process.getActionListeners()[0].actionPerformed(null);
 		}
 		
 		@Override

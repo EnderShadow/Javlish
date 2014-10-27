@@ -27,18 +27,18 @@ minus								-
 plus								+
 times								*
 divided by							/
-mod								%
+modulus								%
 increment							++
+postfix increment {0}						{0}++
 decrement							--
-
-array								[]
+postfix decrement {0}						{0}--
 
 ^								.
 
 to string							""
 
 // bitwise operators
-true shift bit right						>>>
+shift bit right with no carry					>>>
 shift bit right							>>
 shift bit left							<<
 bitwise and							&
@@ -49,10 +49,11 @@ invert								~
 // formatted methods
 print {0} to error console					System.err.println({0})
 print {0} to console						System.out.println({0})
+for each {0} in {1} do						for({0} : {1}){
 for {0} do							for({0}){
 while {0} do							while({0}){
 // NOTE: when dealing with parameters, seperate them
 // 	 with the word "and" instead of a comma.
 constructor {0} with parameters {1} begins here.		{0}({1}){
 method {0} returns {1} with parameters {2} begins here.		{1} {0}({2}){
-{0} with parameters {1}.					{0}({1});
+call {0} with parameters {1}.					{0}({1});
